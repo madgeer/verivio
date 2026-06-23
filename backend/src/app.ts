@@ -1,15 +1,15 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
+import verifyRoute from './routes/verifyRoute';
 
 // Load environment variables
-dotenv.config();
-
 const app = express();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
+app.use('/api/v1', verifyRoute);
 
 // Health Check Endpoint
 app.get('/api/v1/health', (req: Request, res: Response) => {
