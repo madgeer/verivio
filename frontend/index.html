@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify - Lapisan Verifikasi AI</title>
+  <meta name="description" content="Simulasi interaktif Verify - Lapisan verifikasi untuk semua platform AI untuk memvalidasi klaim, mencari bukti, mengukur konsensus, dan mendeteksi blind spot.">
+  
+  <!-- Tabler Icons CDN for modern, crisp UI icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  
+  <!-- Link external CSS stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+  <!-- Mockup Screen Description Label -->
+  <div class="screen-label" id="lbl">Screen 1 of 3 — pilih platform AI</div>
+
+  <!-- Simulated Phone Device -->
+  <div class="phone">
+    <!-- Top Status Bar -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <div class="icons">
+        <i class="ti ti-wifi" aria-hidden="true"></i>
+        <i class="ti ti-battery" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <!-- Phone Screen Views -->
+    <div class="screen">
+
+      <!-- SCREEN 1: Choose AI Platform -->
+      <div id="s1" class="screen-content s1-inner">
+        <div class="app-logo">
+          <div class="logo-mark"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+          <h1>Verify</h1>
+          <p>Lapisan verifikasi untuk semua AI</p>
+        </div>
+        
+        <div class="sec-lbl">Pilih platform AI kamu</div>
+        
+        <div class="ai-grid">
+          <div class="ai-btn selected" onclick="selectAI(this)">
+            <div class="ai-icon" style="background:#EAF3DE;"><i class="ti ti-brand-openai" style="font-size:18px;color:#3B6D11;" aria-hidden="true"></i></div>
+            <span>ChatGPT</span>
+          </div>
+          <div class="ai-btn" onclick="selectAI(this)">
+            <div class="ai-icon" style="background:#E6F1FB;"><i class="ti ti-sparkles" style="font-size:18px;color:#185FA5;" aria-hidden="true"></i></div>
+            <span>Gemini</span>
+          </div>
+          <div class="ai-btn" onclick="selectAI(this)">
+            <div class="ai-icon" style="background:#FAECE7;"><i class="ti ti-robot" style="font-size:18px;color:#993C1D;" aria-hidden="true"></i></div>
+            <span>Claude</span>
+          </div>
+          <div class="ai-btn" onclick="selectAI(this)">
+            <div class="ai-icon" style="background:#FBEAF0;"><i class="ti ti-brain" style="font-size:18px;color:#993556;" aria-hidden="true"></i></div>
+            <span>DeepSeek</span>
+          </div>
+        </div>
+        
+        <button class="next-btn" onclick="goTo(2)">Buka ChatGPT <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+      </div>
+
+      <!-- SCREEN 2: Chat Interface with Floating Verify Button -->
+      <div id="s2" class="screen-content s2-inner" style="display:none;">
+        <div class="browser-bar">
+          <i class="ti ti-lock" aria-hidden="true"></i>
+          <div class="url">chatgpt.com</div>
+          <i class="ti ti-dots" aria-hidden="true"></i>
+        </div>
+        
+        <div class="s2-inner">
+          <div class="chatgpt-header">
+            <span class="logo-text">ChatGPT</span>
+            <div class="model-badge">GPT-4o</div>
+          </div>
+          
+          <div class="chat-body">
+            <div class="chat-msg user">
+              <div class="avatar user">D</div>
+              <div class="msg-bubble user">Apakah penggunaan media sosial berpengaruh negatif terhadap kesehatan mental remaja?</div>
+            </div>
+            <div class="chat-msg">
+              <div class="avatar ai">G</div>
+              <div class="msg-bubble ai">Ya, berbagai penelitian menunjukkan hubungan signifikan antara penggunaan media sosial berlebihan dengan penurunan kesehatan mental. Penggunaan lebih dari 3 jam per hari meningkatkan risiko depresi. Perempuan cenderung lebih rentan. Platform berbasis gambar seperti Instagram dinilai lebih berdampak negatif...</div>
+            </div>
+          </div>
+          
+          <div class="chat-input-bar">
+            <div class="inp">Ketik pesan...</div>
+            <div class="send"><i class="ti ti-arrow-up" aria-hidden="true"></i></div>
+          </div>
+        </div>
+        
+        <div class="float-pulse"></div>
+        <button class="float-verify" onclick="goTo(3)">
+          <i class="ti ti-shield-check" aria-hidden="true"></i> Verify
+        </button>
+      </div>
+
+      <!-- SCREEN 3: Verify Panel Overlay -->
+      <div id="s3" class="screen-content s3-inner" style="display:none;">
+        <div class="s3-bg">
+          <div class="s3-browser">
+            <i class="ti ti-lock" aria-hidden="true"></i>
+            <div class="url">chatgpt.com</div>
+          </div>
+          
+          <div class="s3-chat">
+            <div class="chat-msg user">
+              <div class="avatar user">D</div>
+              <div class="msg-bubble user">Apakah penggunaan media sosial berpengaruh negatif terhadap kesehatan mental remaja?</div>
+            </div>
+            <div class="chat-msg">
+              <div class="avatar ai">G</div>
+              <div class="msg-bubble ai">Ya, berbagai penelitian menunjukkan hubungan signifikan antara penggunaan media sosial berlebihan dengan penurunan kesehatan mental...</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Backdrop clicking goes back to Screen 2 -->
+        <div class="overlay-backdrop" onclick="goTo(2)"></div>
+        
+        <!-- Bottom Verification Features Panel -->
+        <div class="overlay-panel">
+          <div class="panel-handle"></div>
+          
+          <div class="panel-header">
+            <h2><i class="ti ti-shield-check" aria-hidden="true"></i> Verify</h2>
+            <div class="close" onclick="goTo(2)"><i class="ti ti-x" aria-hidden="true"></i></div>
+          </div>
+          
+          <div style="font-size:11px;color:var(--color-text-tertiary);font-weight:500;">Jawaban AI siap diverifikasi. Pilih fitur:</div>
+          
+          <div class="feat-list">
+            <div class="feat-item active">
+              <div class="ficon" style="background:#EEEDFE;"><i class="ti ti-cut" style="font-size:16px;color:#534AB7;" aria-hidden="true"></i></div>
+              <div class="ftxt">
+                <h4>Claim extractor</h4>
+                <p>Pecah jawaban jadi klaim terpisah</p>
+              </div>
+              <i class="ti ti-chevron-right arrow" aria-hidden="true"></i>
+            </div>
+            
+            <div class="feat-item">
+              <div class="ficon" style="background:#E1F5EE;"><i class="ti ti-books" style="font-size:16px;color:#0F6E56;" aria-hidden="true"></i></div>
+              <div class="ftxt">
+                <h4>Evidence finder</h4>
+                <p>Cari jurnal & sumber ilmiah</p>
+              </div>
+              <i class="ti ti-chevron-right arrow" aria-hidden="true"></i>
+            </div>
+            
+            <div class="feat-item">
+              <div class="ficon" style="background:#E6F1FB;"><i class="ti ti-chart-dots" style="font-size:16px;color:#185FA5;" aria-hidden="true"></i></div>
+              <div class="ftxt">
+                <h4>Consensus meter</h4>
+                <p>Lihat kekuatan konsensus riset</p>
+              </div>
+              <i class="ti ti-chevron-right arrow" aria-hidden="true"></i>
+            </div>
+            
+            <div class="feat-item">
+              <div class="ficon" style="background:#FAEEDA;"><i class="ti ti-eye-exclamation" style="font-size:16px;color:#854F0B;" aria-hidden="true"></i></div>
+              <div class="ftxt">
+                <h4>Blind spot alert <span class="new-tag">baru</span></h4>
+                <p>Deteksi perspektif yang absen</p>
+              </div>
+              <i class="ti ti-chevron-right arrow" aria-hidden="true"></i>
+            </div>
+            
+            <div class="feat-item">
+              <div class="ficon" style="background:#EAF3DE;"><i class="ti ti-file-check" style="font-size:16px;color:#3B6D11;" aria-hidden="true"></i></div>
+              <div class="ftxt">
+                <h4>Ready-to-cite</h4>
+                <p>Sitasi APA / MLA / IEEE otomatis</p>
+              </div>
+              <i class="ti ti-chevron-right arrow" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pagination Dots indicator -->
+  <div class="dots">
+    <div class="dot on" id="d1"></div>
+    <div class="dot" id="d2"></div>
+    <div class="dot" id="d3"></div>
+  </div>
+</div>
+
+<!-- Load script.js at the bottom or defer in head -->
+<script src="script.js" defer></script>
+</body>
+</html>
