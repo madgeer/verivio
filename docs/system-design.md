@@ -51,7 +51,7 @@ flowchart TD
     BlindSpotService[Blind Spot Service]
     CitationService[Citation Service]
 
-    OpenAI[LLM API]
+    Gemini[Gemini API]
     OpenAlex[OpenAlex API]
 
     User --> Mobile
@@ -64,11 +64,11 @@ flowchart TD
     Backend --> BlindSpotService
     Backend --> CitationService
 
-    ClaimService --> OpenAI
+    ClaimService --> Gemini
 
     EvidenceService --> OpenAlex
 
-    ConsensusService --> OpenAI
+    ConsensusService --> Gemini
 
     CitationService --> OpenAlex
 
@@ -358,7 +358,7 @@ Response
 
 ### External APIs
 
-* OpenAI API
+* Gemini API (Google AI Studio)
 * OpenAlex API
 
 ### Deployment

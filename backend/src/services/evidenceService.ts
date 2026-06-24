@@ -9,6 +9,7 @@ export interface Paper {
     doi: string | null;
     url: string;
     abstract: string;
+    countries: string[]; // Menampung kode negara asal institusi riset (e.g. US, ID, GB)
 }
 
 export class EvidenceService {
@@ -44,6 +45,16 @@ export class EvidenceService {
             (auth: any) => auth.author?.display_name || 'Unknown Author'
         );
 
+        // Ambil kode negara institusi penulis
+        const countries: string[] = [];
+        (work.authorships || []).forEach((auth: any) => {
+            (auth.institutions || []).forEach((inst: any) => {
+                if (inst.country_code && !countries.includes(inst.country_code)) {
+                    countries.push(inst.country_code);
+                }
+            });
+        });
+
         // OpenAlex mengembalikan abstrak dalam bentuk inverted index. 
         // Kita butuh merekonstruksinya menjadi teks utuh untuk analisis konsensus nanti.
         const abstract = this.reconstructAbstract(work.abstract_inverted_index);
@@ -56,7 +67,8 @@ export class EvidenceService {
             year: work.publication_year || 0,
             doi: work.doi || null,
             url: work.primary_location?.landing_page_url || work.doi || '',
-            abstract
+            abstract,
+            countries
         };
         });
     } catch (error) {

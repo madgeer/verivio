@@ -96,7 +96,7 @@
         </div>
         
         <div class="float-pulse"></div>
-        <button class="float-verify" onclick="goTo(3)">
+        <button class="float-verify" onclick="startVerification()">
           <i class="ti ti-shield-check" aria-hidden="true"></i> Verify
         </button>
       </div>
@@ -133,10 +133,11 @@
             <div class="close" onclick="goTo(2)"><i class="ti ti-x" aria-hidden="true"></i></div>
           </div>
           
-          <div style="font-size:11px;color:var(--color-text-tertiary);font-weight:500;">Jawaban AI siap diverifikasi. Pilih fitur:</div>
+          <div style="font-size:11px;color:var(--color-text-tertiary);font-weight:500;margin-bottom:4px;" id="panelSubtitle">Jawaban AI siap diverifikasi. Pilih fitur:</div>
           
-          <div class="feat-list">
-            <div class="feat-item active">
+          <!-- Features List Menu -->
+          <div class="feat-list" id="featuresList">
+            <div class="feat-item" onclick="showFeatureDetail('claims')">
               <div class="ficon" style="background:#EEEDFE;"><i class="ti ti-cut" style="font-size:16px;color:#534AB7;" aria-hidden="true"></i></div>
               <div class="ftxt">
                 <h4>Claim extractor</h4>
@@ -145,7 +146,7 @@
               <i class="ti ti-chevron-right arrow" aria-hidden="true"></i>
             </div>
             
-            <div class="feat-item">
+            <div class="feat-item" onclick="showFeatureDetail('papers')">
               <div class="ficon" style="background:#E1F5EE;"><i class="ti ti-books" style="font-size:16px;color:#0F6E56;" aria-hidden="true"></i></div>
               <div class="ftxt">
                 <h4>Evidence finder</h4>
@@ -154,7 +155,7 @@
               <i class="ti ti-chevron-right arrow" aria-hidden="true"></i>
             </div>
             
-            <div class="feat-item">
+            <div class="feat-item" onclick="showFeatureDetail('consensus')">
               <div class="ficon" style="background:#E6F1FB;"><i class="ti ti-chart-dots" style="font-size:16px;color:#185FA5;" aria-hidden="true"></i></div>
               <div class="ftxt">
                 <h4>Consensus meter</h4>
@@ -163,7 +164,7 @@
               <i class="ti ti-chevron-right arrow" aria-hidden="true"></i>
             </div>
             
-            <div class="feat-item">
+            <div class="feat-item" onclick="showFeatureDetail('blindspot')">
               <div class="ficon" style="background:#FAEEDA;"><i class="ti ti-eye-exclamation" style="font-size:16px;color:#854F0B;" aria-hidden="true"></i></div>
               <div class="ftxt">
                 <h4>Blind spot alert <span class="new-tag">baru</span></h4>
@@ -172,7 +173,7 @@
               <i class="ti ti-chevron-right arrow" aria-hidden="true"></i>
             </div>
             
-            <div class="feat-item">
+            <div class="feat-item" onclick="showFeatureDetail('citations')">
               <div class="ficon" style="background:#EAF3DE;"><i class="ti ti-file-check" style="font-size:16px;color:#3B6D11;" aria-hidden="true"></i></div>
               <div class="ftxt">
                 <h4>Ready-to-cite</h4>
@@ -181,9 +182,26 @@
               <i class="ti ti-chevron-right arrow" aria-hidden="true"></i>
             </div>
           </div>
+
+          <!-- Feature Detail Content View (Initially Hidden) -->
+          <div class="feat-detail" id="featureDetail" style="display:none;">
+            <div class="detail-header">
+              <button class="back-btn" onclick="showFeaturesList()"><i class="ti ti-chevron-left" aria-hidden="true"></i> Kembali</button>
+              <h3 id="detailTitle">Detail Fitur</h3>
+            </div>
+            <div class="detail-body" id="detailContent">
+              <!-- Content generated dynamically by JavaScript -->
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- Loading Overlay -->
+      <div id="loadingOverlay" class="loading-overlay" style="display:none;">
+        <div class="spinner"></div>
+        <p>Memverifikasi...</p>
+        <span style="font-size: 9px; opacity: 0.8; margin-top: 4px; text-align: center; max-width: 80%;">Mengekstrak klaim & mencari referensi akademik</span>
+      </div>
     </div>
   </div>
 

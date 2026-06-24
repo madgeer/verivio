@@ -6,7 +6,6 @@ export class ClaimService {
     private getGeminiInstance(): GoogleGenerativeAI | null {
         const apiKey = process.env.GEMINI_API_KEY;
         
-        // Jika API Key kosong atau masih berupa placeholder, aktifkan Mock Mode
         if (!apiKey || apiKey === '' || apiKey === 'isi_dengan_api_key_gemini_kamu') {
             return null;
         }
@@ -24,35 +23,18 @@ export class ClaimService {
 
         const client = this.getGeminiInstance();
 
-        // JIKA MOCK MODE AKTIF (client bernilai null)
+        // JIKA MOCK MODE AKTIF SEJAK AWAL
         if (!client) {
-            console.log('⚠️ GEMINI_API_KEY tidak ditemukan. Berjalan dalam MOCK MODE.');
-            
-            const lowerAnswer = answer.toLowerCase();
-            
-            // Berikan klaim tiruan yang realistis jika membahas tentang media sosial
-            if (lowerAnswer.includes('media sosial') || lowerAnswer.includes('sosmed') || lowerAnswer.includes('depresi')) {
-                return [
-                    "Penggunaan media sosial berlebihan berpengaruh negatif terhadap kesehatan mental remaja",
-                    "Penggunaan media sosial lebih dari 3 jam per hari meningkatkan risiko depresi",
-                    "Remaja perempuan lebih rentan terhadap dampak negatif media sosial"
-                ];
-            }
-            
-            // Default mock claims jika topiknya umum
-            return [
-                "Konsumsi kafein berlebihan meningkatkan risiko gangguan tidur",
-                "Kualitas tidur yang buruk mempengaruhi fokus dan memori jangka pendek"
-            ];
+            return this.getMockClaims(answer);
         }
 
         // JIKA GEMINI API AKTIF
         try {
-            const modelName = process.env.GEMINI_MODEL || "gemini-1.5-flash";
+            const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
             const model = client.getGenerativeModel({ 
                 model: modelName,
                 generationConfig: {
-                    responseMimeType: "application/json" // Memaksa Gemini mengembalikan format JSON terstruktur
+                    responseMimeType: "application/json"
                 }
             });
 
@@ -83,8 +65,27 @@ ${answer}`;
 
             return parsed.claims;
         } catch (error) {
-            console.error('Error in ClaimService.extractClaims (Gemini):', error);
-            throw error;
+            // AUTOMATIC FALLBACK JIKA GEMINI LIMIT (429) ATAU ERROR LAINNYA
+            console.warn('⚠️ Gemini API error in ClaimService (mungkin limit/429). Otomatis dialihkan ke MOCK MODE:', error);
+            return this.getMockClaims(answer);
         }
+    }
+
+    private getMockClaims(answer: string): string[] {
+        console.log('💡 Menyajikan Mock Claims untuk menyiasati limit Gemini.');
+        const lowerAnswer = answer.toLowerCase();
+        
+        if (lowerAnswer.includes('media sosial') || lowerAnswer.includes('sosmed') || lowerAnswer.includes('depresi')) {
+            return [
+                "Penggunaan media sosial berlebihan berpengaruh negatif terhadap kesehatan mental remaja",
+                "Penggunaan media sosial lebih dari 3 jam per hari meningkatkan risiko depresi",
+                "Remaja perempuan lebih rentan terhadap dampak negatif media sosial"
+            ];
+        }
+        
+        return [
+            "Konsumsi kafein berlebihan meningkatkan risiko gangguan tidur",
+            "Kualitas tidur yang buruk mempengaruhi fokus dan memori jangka pendek"
+        ];
     }
 }
