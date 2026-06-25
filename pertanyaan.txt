@@ -1,0 +1,55 @@
+========================================================================
+             DAFTAR PERTANYAAN UJI COBA VERIVIO (VERIFICATION LAYER)
+========================================================================
+
+Berikut adalah beberapa contoh pertanyaan ilmiah, medis, dan sosial
+yang sangat direkomendasikan untuk dimasukkan ke ChatGPT, Gemini, atau
+Claude saat melakukan uji coba/demo aplikasi Verivio. 
+
+Salin (copy) salah satu pertanyaan di bawah ini, kirimkan ke asisten AI,
+kemudian klik tombol "Verify" setelah AI menjawab untuk melihat dasbor 
+analisis sainsnya.
+
+------------------------------------------------------------------------
+1. TOPIK: KESEHATAN MENTAL & TEKNOLOGI (Sangat Direkomendasikan)
+------------------------------------------------------------------------
+Pertanyaan:
+"Apakah penggunaan media sosial secara berlebihan memiliki hubungan langsung dengan peningkatan risiko depresi pada remaja?"
+
+Mengapa Menarik:
+Menghasilkan klaim yang bervariasi dengan tingkat konsensus ilmiah yang
+cukup kuat (Support). Kamu akan melihat daftar jurnal psikologis
+dari OpenAlex dan visualisasi Blind Spot (sebaran geografis riset).
+
+------------------------------------------------------------------------
+2. TOPIK: GAYA HIDUP & MEDIS
+------------------------------------------------------------------------
+Pertanyaan:
+"Apakah minum kopi secara rutin setiap hari terbukti secara ilmiah dapat menurunkan risiko penyakit diabetes tipe 2?"
+
+Mengapa Menarik:
+Ini adalah klaim nutrisi/kesehatan klasik. Jurnal medis pendukung
+sangat melimpah, dan Consensus Meter biasanya akan menunjukkan skor
+persetujuan sains yang tinggi.
+
+------------------------------------------------------------------------
+3. TOPIK: SAINS LINGKUNGAN & KESEHATAN MODERN
+------------------------------------------------------------------------
+Pertanyaan:
+"Apakah mikroplastik sudah terdeteksi di dalam aliran darah manusia, dan bagaimana pandangan sains terhadap dampaknya bagi kesehatan?"
+
+Mengapa Menarik:
+Topik hangat dan mutakhir. Hasil konsensus biasanya berada di rentang
+Support/Neutral dengan jurnal-jurnal ilmiah terbaru terbitan tahun
+2022-2026.
+
+------------------------------------------------------------------------
+4. TOPIK: KESEHATAN UMUM (KLASIK)
+------------------------------------------------------------------------
+Pertanyaan:
+"Apakah konsumsi garam berlebih benar-benar memicu hipertensi menurut studi sains kedokteran terbaru?"
+
+Mengapa Menarik:
+Klaim kesehatan yang sangat mapan. Memberikan data konsensus yang sangat
+solid dan sitasi riset yang mudah digunakan di tab "Ready-to-Cite".
+========================================================================

@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { verifyAnswer } from "../controllers/verificationController";
+import { verifyAnswer, chatAI } from "../controllers/verificationController";
 
 const router = Router();
 
 router.post('/verify', verifyAnswer);
+router.post('/chat', chatAI);
 
 export default router;

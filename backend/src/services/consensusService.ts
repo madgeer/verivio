@@ -107,6 +107,120 @@ Example output:
     }
   }
 
+  async analyzeBatchConsensus(claims: string[], paperResults: Paper[][]): Promise<Record<string, ConsensusResult>> {
+    const results: Record<string, ConsensusResult> = {};
+    
+    // Filter claims that actually have papers
+    const claimsWithPapers = claims.map((claim, idx) => ({
+      claim,
+      idx,
+      papers: paperResults[idx],
+      total: paperResults[idx].length
+    }));
+
+    // If there are no claims with papers, return weak consensus immediately
+    if (claimsWithPapers.every(c => c.total === 0)) {
+      claims.forEach(claim => {
+        results[claim] = { score: 0, level: "Weak", support: 0, neutral: 0, oppose: 0, total: 0 };
+      });
+      return results;
+    }
+
+    const client = this.getGeminiInstance();
+    if (!client) {
+      claims.forEach((claim, idx) => {
+        results[claim] = this.getMockConsensus(paperResults[idx].length);
+      });
+      return results;
+    }
+
+    try {
+      const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+      const model = client.getGenerativeModel({
+        model: modelName,
+        generationConfig: {
+          responseMimeType: "application/json"
+        }
+      });
+
+      // Construct a single consolidated prompt
+      let promptText = `You are a scientific consensus analyzer. Your task is to evaluate multiple claims against their respective list of scientific papers.
+For each claim and its associated paper list, classify each paper into one of these three categories:
+1. "support": The paper's abstract supports, confirms, or agrees with the claim.
+2. "oppose": The paper's abstract contradicts, disproves, or disagrees with the claim.
+3. "neutral": The paper's abstract does not take a stance, is irrelevant, or has insufficient evidence.
+
+Here is the data structure you must analyze:
+`;
+
+      claimsWithPapers.forEach((c, cIdx) => {
+        if (c.total === 0) return;
+        promptText += `\n=== CLAIM #${cIdx} ===\nClaim: "${c.claim}"\nPapers:\n`;
+        c.papers.forEach((p) => {
+          promptText += `- Paper ID: ${p.id}\n  Title: ${p.title}\n  Abstract: ${p.abstract || "No abstract available"}\n`;
+        });
+      });
+
+      promptText += `
+You must respond with a JSON object where the keys are the "Paper ID" values and the values are the classification string ("support", "oppose", or "neutral").
+Analyze all paper IDs listed above.
+Example output:
+{
+  "https://openalex.org/W12345": "support",
+  "https://openalex.org/W67890": "neutral"
+}`;
+
+      const result = await model.generateContent(promptText);
+      const responseText = result.response.text();
+      
+      if (!responseText) {
+        throw new Error('No content returned from Gemini API in Batch Consensus Service');
+      }
+
+      const classifications = JSON.parse(responseText);
+
+      claims.forEach((claim, idx) => {
+        const papers = paperResults[idx];
+        const total = papers.length;
+
+        if (total === 0) {
+          results[claim] = { score: 0, level: "Weak", support: 0, neutral: 0, oppose: 0, total: 0 };
+          return;
+        }
+
+        let support = 0;
+        let oppose = 0;
+        let neutral = 0;
+
+        papers.forEach(p => {
+          const category = classifications[p.id];
+          if (category === 'support') support++;
+          else if (category === 'oppose') oppose++;
+          else neutral++;
+        });
+
+        const score = Math.round(((support - oppose) / total) * 100);
+
+        results[claim] = {
+          score,
+          level: this.determineLevel(score),
+          support,
+          neutral,
+          oppose,
+          total
+        };
+      });
+
+      return results;
+    } catch (error) {
+      console.warn("⚠️ Gemini API error in Batch ConsensusService, fallback to mock:", error);
+      claims.forEach((claim, idx) => {
+        results[claim] = this.getMockConsensus(paperResults[idx].length);
+      });
+      return results;
+    }
+  }
+
   private getMockConsensus(total: number): ConsensusResult {
     console.log('💡 Menyajikan Mock Consensus untuk menyiasati limit Gemini.');
     const support = Math.ceil(total * 0.6); // 60% support

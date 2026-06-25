@@ -1,5 +1,46 @@
+# Dependensi & Package Manager
 node_modules/
+jspm_packages/
+.pub-cache/
+.pub/
+.dart_tool/
+
+# Hasil Build / Output
 dist/
+build/
+out/
+mobile/build/
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.pub/
+mobile/.pub-cache/
+mobile/android/app/debug
+mobile/android/app/profile
+mobile/android/app/release
+
+# Environment Variables & Kunci Rahasia
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+
+# Log & Debugging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.class
+*.pyc
+*.swp
+
+# Pengaturan IDE / Editor
 .vscode/
-coverage/
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+.history

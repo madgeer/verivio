@@ -24,7 +24,7 @@ export class EvidenceService {
         const email = process.env.OPENALEX_EMAIL;
         // Gunakan User-Agent yang sopan agar masuk ke "polite pool" OpenAlex (gratis & cepat)
         const headers: Record<string, string> = {
-        'User-Agent': `VERITY/1.0 (${email ? `mailto:${email}` : 'anonymous@verity.com'})`
+        'User-Agent': `Verivio/1.0 (${email ? `mailto:${email}` : 'anonymous@verivio.com'})`
         };
 
         // Panggil OpenAlex API (cari work/paper berdasarkan teks klaim)

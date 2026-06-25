@@ -1,0 +1,2 @@
+Tempatkan file logo Anda di folder ini (contoh: logo.png) dan sesuaikan referensinya di dalam main.dart.
+Folder ini sudah didaftarkan di dalam pubspec.yaml.
