@@ -1,0 +1,13 @@
+# Dependensi Node.js
+node_modules/
+
+# Hasil kompilasi JavaScript
+dist/
+
+# Kunci rahasia & environment variables
+.env
+.env.local
+
+# Log
+*.log
+npm-debug.log*

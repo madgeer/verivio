@@ -5,6 +5,12 @@ import '../models/verification_models.dart';
 
 class ApiService {
   String get baseUrl {
+    // Check if a backend URL was injected at build time via --dart-define
+    const String injectedUrl = String.fromEnvironment('BACKEND_URL');
+    if (injectedUrl.isNotEmpty) {
+      return injectedUrl;
+    }
+
     if (kIsWeb) {
       final baseUri = Uri.base;
       // If we are developing locally on a different port than the backend (5000), target local backend
@@ -16,11 +22,8 @@ class ApiService {
       // Production or unified port deployment: target current host dynamically
       return '${baseUri.scheme}://${baseUri.authority}/api/v1';
     } else {
-      // Fallback for mobile emulators / desktop targets
-      if (defaultTargetPlatform == TargetPlatform.android) {
-        return 'http://192.168.1.4:5000/api/v1';
-      }
-      return 'http://localhost:5000/api/v1';
+      // Fallback local IP address for Android Emulator (10.0.2.2 points to host's 127.0.0.1)
+      return 'http://10.0.2.2:5000/api/v1';
     }
   }
 

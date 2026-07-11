@@ -18,6 +18,7 @@ mobile/.pub-cache/
 mobile/android/app/debug
 mobile/android/app/profile
 mobile/android/app/release
+FLUTTER_GUIDE.md
 
 # Environment Variables & Kunci Rahasia
 .env
@@ -44,3 +45,7 @@ yarn-error.log*
 *.iws
 .DS_Store
 .history
+
+# Pengaturan Azure CLI (Lokal)
+.azure/
+backend/.azure/
