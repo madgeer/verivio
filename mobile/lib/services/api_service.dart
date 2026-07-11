@@ -22,8 +22,8 @@ class ApiService {
       // Production or unified port deployment: target current host dynamically
       return '${baseUri.scheme}://${baseUri.authority}/api/v1';
     } else {
-      // Fallback local IP address for Android Emulator (10.0.2.2 points to host's 127.0.0.1)
-      return 'http://10.0.2.2:5000/api/v1';
+      // Default to the live Japan West Azure production server so it works out-of-the-box on physical devices
+      return 'https://verivio-backend-japan-rizki.azurewebsites.net/api/v1';
     }
   }
 

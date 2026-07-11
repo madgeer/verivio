@@ -26,9 +26,14 @@ export const verifyAnswer = async (req: Request, res: Response): Promise<void> =
     // Step 1: Ekstraksi klaim menggunakan Gemini (atau Mock Mode)
     const claims = await claimService.extractClaims(answer);
 
-    // Step 2: Cari paper secara paralel untuk setiap klaim
-    const paperPromises = claims.map(claim => evidenceService.findEvidence(claim));
-    const paperResults = await Promise.all(paperPromises);
+    // Step 2: Cari paper secara sekuensial untuk setiap klaim (menghindari rate limit OpenAlex)
+    const paperResults: Paper[][] = [];
+    for (const claim of claims) {
+      const papers = await evidenceService.findEvidence(claim);
+      paperResults.push(papers);
+      // Jeda 100ms untuk menjaga rate limit tetap di bawah 10 request/detik
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
 
     // Satukan semua paper ke dalam satu list datar (flat array)
     const allPapers: Paper[] = paperResults.flat();
